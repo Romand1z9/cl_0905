@@ -9,7 +9,7 @@ class IndexController extends AppController
 
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu()));
 
         $this->bar = 'right';
         $this->template = env('THEME').'.index';
@@ -22,6 +22,12 @@ class IndexController extends AppController
      */
     public function index()
     {
+        $this->vars['navigation'] = view(env('THEME').'.navigation')->render();
+
+        $menu = $this->getMenu();
+        //dd($menu);
+        //$this->vars['navigation'] = 'MENU';
+
         return $this->renderOutput();
     }
 
