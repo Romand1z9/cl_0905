@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\SlidersRepository;
+use App\Repositories\PortfoliosRepository;
 
 use Config;
 
 class IndexController extends AppController
 {
 
-    public function __construct(SlidersRepository $slider)
+    public function __construct(SlidersRepository $slider, PortfoliosRepository $portfolio)
     {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu()));
 
         $this->s_rep = $slider;
+        $this->p_rep = $portfolio;
         
         $this->bar = 'right';
         $this->template = env('THEME').'.index';
@@ -27,12 +29,15 @@ class IndexController extends AppController
      */
     public function index()
     {
-        $slides = $this->getSlides();
-        
+        $slides = $this->getSlides();        
         $slider = view(env('THEME').'.slider')->with('slides', $slides)->render();
         
+        $portfolio_items = $this->getPortfolio();
+        $portfolio = view(env('THEME').'.content')->with('portfolios', $portfolio_items)->render();
+        
         $this->vars['slider'] = $slider;
-        //var_dump(htmlspecialchars($slider)); die;
+        $this->vars['portfolio'] = $portfolio;
+
         
         return $this->renderOutput();
     }
@@ -105,7 +110,7 @@ class IndexController extends AppController
     
     public function getSlides()
     {
-        $slides = $this->s_rep->get();
+        $slides = $this->s_rep->get('*', 4);
         
         if($slides->isEmpty()) 
         {
@@ -121,5 +126,16 @@ class IndexController extends AppController
     	
     	return $slides;
     }
-    
+        
+    public function getPortfolio()
+    {
+        $portfolio = $this->p_rep->get('*', Config::get('settings.home_portfolio_count'));
+        
+        if($portfolio->isEmpty()) 
+        {
+            return FALSE;
+	}
+	
+    	return $portfolio;
+    }
 }
