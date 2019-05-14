@@ -49,18 +49,18 @@ class AppController extends Controller
 				
                 if($item->parent == 0) 
                 {
-					$m->add($item->title,$item->path)->id($item->id);
-				}
+                    $m->add($item->title,$item->path)->id($item->id);
+		}
                 else 
                 {
                     if($m->find($item->parent))
                     {
-						$m->find($item->parent)->add($item->title,$item->path)->id($item->id);
-					}
-				}
-			}
+			$m->find($item->parent)->add($item->title,$item->path)->id($item->id);
+                    }
+		}
+	    }
 			
-		});
+	});
 
         return $mBuilder;
         

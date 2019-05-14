@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\SlidersRepository;
+
+use Config;
 
 class IndexController extends AppController
 {
 
-    public function __construct()
+    public function __construct(SlidersRepository $slider)
     {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu()));
 
+        $this->s_rep = $slider;
+        
         $this->bar = 'right';
         $this->template = env('THEME').'.index';
     }
@@ -22,6 +27,13 @@ class IndexController extends AppController
      */
     public function index()
     {
+        $slides = $this->getSlides();
+        
+        $slider = view(env('THEME').'.slider')->with('slides', $slides)->render();
+        
+        $this->vars['slider'] = $slider;
+        //var_dump(htmlspecialchars($slider)); die;
+        
         return $this->renderOutput();
     }
 
@@ -90,4 +102,24 @@ class IndexController extends AppController
     {
         //
     }
+    
+    public function getSlides()
+    {
+        $slides = $this->s_rep->get();
+        
+        if($slides->isEmpty()) 
+        {
+            return FALSE;
+	}
+		
+        $slides->transform(function($item,$key) 
+        {
+            $item->img = Config::get('settings.slider_path').'/'.$item->img;
+            return $item;
+
+        });
+    	
+    	return $slides;
+    }
+    
 }
