@@ -25,7 +25,7 @@
         <!-- this line will appear only if the website is visited with an iPad -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.2, user-scalable=yes" />
         
-        <title>Pink Rio | A strong, powerful and multiporpose WordPress Theme</title>
+        <title>Pink Rio.</title>
         
         <!-- [favicon] begin -->
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset(env('THEME')) }}/images/favicon.ico" />
@@ -176,7 +176,7 @@
                 <div id="copyright">
                     <div class="inner group">
                         <div class="left">
-                            <a href="http://yithemes.com/?ddownload=2046&ap_id=pinkrio-html"><strong>Download the free version for Wordpress</strong></a>
+                            
                         </div>
                         <div class="right">
                             <a href="#" class="socials-small facebook-small" title="Facebook">facebook</a>
