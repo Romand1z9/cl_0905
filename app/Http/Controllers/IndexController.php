@@ -31,6 +31,11 @@ class IndexController extends AppController
      */
     public function index()
     {
+
+        $this->title = 'Home Page';
+        $this->keywords = 'Home Page';
+        $this->meta_description = 'Home Page';
+
         $slides = $this->getSlides();        
         $slider = view(env('THEME').'.slider')->with('slides', $slides)->render();
         
@@ -39,7 +44,8 @@ class IndexController extends AppController
 
         $articles = $this->getArticles();
         $this->contentRightBar = view(env('THEME').'.index_sidebar')->with('articles', $articles)->render();
-        //dd($articles);
+
+        $this->sidebar = 'right';
         
         $this->vars['slider'] = $slider;
         $this->vars['portfolio'] = $portfolio;

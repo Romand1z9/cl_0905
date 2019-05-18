@@ -16,9 +16,13 @@ class AppController extends Controller
 
     protected $template;
 
+    protected $title;
+    protected $keywords;
+    protected $meta_description;
+
     protected $vars;
 
-    protected $bar = FALSE;
+    protected $sidebar = 'no';
     protected $contentLeftBar = FALSE;
     protected $contentRightBar = FALSE;
 
@@ -30,6 +34,10 @@ class AppController extends Controller
     protected function renderOutput()
     {
 
+        $this->vars['title'] = $this->title;
+        $this->vars['keywords'] = $this->keywords;
+        $this->vars['meta_description'] = $this->meta_description;
+
         $menu = $this->getMenu();
 
         $this->vars['navigation'] = view(env('THEME').'.navigation')->with('menu', $menu)->render();
@@ -38,8 +46,12 @@ class AppController extends Controller
         {
             $right_bar = view(env('THEME').'.right_sidebar')->with('content_right_bar', $this->contentRightBar)->render();
             $this->vars['right_bar'] = $right_bar;
-            //dd($this->vars['right_bar']);
         }
+
+        $this->vars['sidebar'] = $this->sidebar;
+
+        $footer = view(env('THEME').'.footer')->render();
+        $this->vars['footer'] = $footer;
 
         return view($this->template)->with($this->vars);
     }
