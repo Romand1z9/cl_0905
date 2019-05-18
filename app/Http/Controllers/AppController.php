@@ -34,6 +34,13 @@ class AppController extends Controller
 
         $this->vars['navigation'] = view(env('THEME').'.navigation')->with('menu', $menu)->render();
 
+        if ($this->contentRightBar)
+        {
+            $right_bar = view(env('THEME').'.right_sidebar')->with('content_right_bar', $this->contentRightBar)->render();
+            $this->vars['right_bar'] = $right_bar;
+            //dd($this->vars['right_bar']);
+        }
+
         return view($this->template)->with($this->vars);
     }
 

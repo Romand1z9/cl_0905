@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\SlidersRepository;
 use App\Repositories\PortfoliosRepository;
+use App\Repositories\ArticlesRepository;
 
 use Config;
 
 class IndexController extends AppController
 {
 
-    public function __construct(SlidersRepository $slider, PortfoliosRepository $portfolio)
+    public function __construct(SlidersRepository $slider, PortfoliosRepository $portfolio, ArticlesRepository $articles)
     {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu()));
 
         $this->s_rep = $slider;
         $this->p_rep = $portfolio;
+        $this->a_rep = $articles;
         
         $this->bar = 'right';
         $this->template = env('THEME').'.index';
@@ -34,11 +36,14 @@ class IndexController extends AppController
         
         $portfolio_items = $this->getPortfolio();
         $portfolio = view(env('THEME').'.content')->with('portfolios', $portfolio_items)->render();
+
+        $articles = $this->getArticles();
+        $this->contentRightBar = view(env('THEME').'.index_sidebar')->with('articles', $articles)->render();
+        //dd($articles);
         
         $this->vars['slider'] = $slider;
         $this->vars['portfolio'] = $portfolio;
 
-        
         return $this->renderOutput();
     }
 
@@ -138,4 +143,17 @@ class IndexController extends AppController
 	
     	return $portfolio;
     }
+
+    public function getArticles()
+    {
+        $articles = $this->a_rep->get(['title', 'alias', 'img', 'created_at'], Config::get('settings.home_articles_count'));
+        
+        if($articles->isEmpty()) 
+        {
+            return FALSE;
+	}
+	
+    	return $articles;
+    }
+
 }

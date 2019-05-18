@@ -11,3 +11,7 @@
 @section('content')
     {!! $portfolio !!}
 @endsection
+
+@section('sidebar')
+    {!! $right_bar !!}
+@endsection
