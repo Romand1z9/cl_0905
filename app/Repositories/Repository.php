@@ -8,13 +8,18 @@ abstract class Repository
 {
     protected $model = FALSE;
 
-    public function get($select = "*", $limit = FALSE)
+    public function get($select = "*", $limit = FALSE, $paginate = FALSE)
     {
         $builder = $this->model->select($select);
         
         if ($limit)
         {
             $builder->take($limit);
+        }
+
+        if ($paginate)
+        {
+            $builder->paginate(Config::get('settings.paginate'));
         }
 
         return $this->check($builder->get());

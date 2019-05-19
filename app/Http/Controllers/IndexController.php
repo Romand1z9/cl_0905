@@ -20,7 +20,6 @@ class IndexController extends AppController
         $this->p_rep = $portfolio;
         $this->a_rep = $articles;
         
-        $this->bar = 'right';
         $this->template = env('THEME').'.index';
     }
 
