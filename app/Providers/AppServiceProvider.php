@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Blade;
@@ -34,6 +35,11 @@ class AppServiceProvider extends ServiceProvider
 
             return "<?php $name = $val ?>";     	
         });
+
+        /*DB::listen(function($query) {
+           echo "<p>".$query->sql."</p>";
+        });*/
+
         
         Schema::defaultStringLength(191);
     }

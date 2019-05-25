@@ -7,15 +7,17 @@ use Config;
 
 use App\Repositories\PortfoliosRepository;
 use App\Repositories\ArticlesRepository;
+use App\Repositories\CommentsRepository;
 
 class ArticleController extends AppController
 {
-    public function __construct(PortfoliosRepository $portfolio, ArticlesRepository $articles)
+    public function __construct(PortfoliosRepository $portfolio, ArticlesRepository $articles, CommentsRepository $comments)
     {
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu()));
 
         $this->p_rep = $portfolio;
         $this->a_rep = $articles;
+        $this->c_rep = $comments;
         
         $this->bar = 'right';
         $this->template = env('THEME').'.articles';
@@ -29,10 +31,13 @@ class ArticleController extends AppController
         
 
         $articles_items = $this->getArticles();
+        $portfolio_items = $this->getPortfolio();
+        $comments = $this->getComments(Config::get('settings.articles_comments_count'));
+
         $articles = view(env('THEME').'.articles_content')->with('articles', $articles_items)->render();
         $this->vars['articles'] = $articles;
 
-        $this->contentRightBar = view(env('THEME').'.index_sidebar')->with('articles', $articles_items)->render();
+        $this->contentRightBar = view(env('THEME').'.articles_sidebar')->with(['portfolios' => $portfolio_items, 'comments' => $comments])->render();
 
         $this->sidebar = 'right';
 
@@ -49,7 +54,7 @@ class ArticleController extends AppController
 
     public function getPortfolio()
     {
-        $portfolio = $this->p_rep->get('*', Config::get('settings.home_portfolio_count'));
+        $portfolio = $this->p_rep->get('*', Config::get('settings.articles_portfolio_count'));
         
         if($portfolio->isEmpty()) 
         {
@@ -74,6 +79,17 @@ class ArticleController extends AppController
         }
 
     	return $articles;
+    }
+
+    public function getComments($take) {
+
+        $comments = $this->c_rep->get(['text','name','email','site','article_id','user_id'],$take, FALSE, 'created_at');
+
+        if($comments) {
+            $comments->load('article','user');
+        }
+
+        return $comments;
     }
 
 }

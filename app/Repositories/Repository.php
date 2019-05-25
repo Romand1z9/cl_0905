@@ -8,10 +8,15 @@ abstract class Repository
 {
     protected $model = FALSE;
 
-    public function get($select = "*", $limit = FALSE, $paginate = FALSE)
+    public function get($select = "*", $limit = FALSE, $paginate = FALSE, $order_by = FALSE)
     {
         $builder = $this->model->select($select);
-        
+
+        if ($order_by)
+        {
+            $builder->orderBy($order_by, 'desc');
+        }
+
         if ($limit)
         {
             $builder->take($limit);
