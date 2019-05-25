@@ -61,8 +61,8 @@ class ArticleController extends AppController
 
     public function getArticles()
     {
-        $articles = $this->a_rep->get(['id','title', 'alias', 'img', 'created_at','user_id','category_id'], FALSE, TRUE);
-        
+        $articles = $this->a_rep->get(['id','title', 'alias', 'desc', 'img', 'created_at','user_id','category_id'], FALSE, TRUE);
+
         if($articles->isEmpty()) 
         {
             return FALSE;
@@ -72,7 +72,7 @@ class ArticleController extends AppController
         {
             $articles->load('user', 'category', 'comments');
         }
-	
+
     	return $articles;
     }
 

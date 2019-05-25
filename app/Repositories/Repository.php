@@ -19,7 +19,7 @@ abstract class Repository
 
         if ($paginate)
         {
-            $builder->paginate(Config::get('settings.paginate'));
+            return $this->check($builder->paginate(Config::get('settings.paginate')));
         }
 
         return $this->check($builder->get());
