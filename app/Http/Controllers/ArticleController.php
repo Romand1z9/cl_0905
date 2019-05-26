@@ -26,11 +26,6 @@ class ArticleController extends AppController
 
     public function index($alias = FALSE)
     {
-        $this->title = 'Articles Page';
-        $this->keywords = 'Articles Page';
-        $this->meta_description = 'Articles Page';
-        
-
         $articles_items = $this->getArticles($alias);
         $portfolio_items = $this->getPortfolio();
         $comments = $this->getComments(Config::get('settings.articles_comments_count'));
@@ -42,15 +37,33 @@ class ArticleController extends AppController
 
         $this->sidebar = 'right';
 
-        //dd($articles);
-        
+        $this->title = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : 'Articles Page';
+        $this->keywords = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : 'Articles Page';
+        $this->meta_description = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : 'Articles Page';
 
         return $this->renderOutput();
     }
 
-    public function show(Request $request)
+    public function show($alias = FALSE)
     {
-       // dd($request->all());
+        $article = $this->a_rep->one($alias, ['comments']);
+
+        if ($article)
+        {
+            $this->title = $article->title;
+            $this->keywords = $article->title;
+            $this->meta_description =$article->title;
+        }
+        $portfolio_items = $this->getPortfolio();
+        $comments = $this->getComments(Config::get('settings.articles_comments_count'));
+
+        $content = view(env('THEME').'.article_content')->with('article', $article)->render();
+        $this->vars['articles'] = $content;
+
+        $this->contentRightBar = view(env('THEME').'.articles_sidebar')->with(['portfolios' => $portfolio_items, 'comments' => $comments])->render();
+        $this->sidebar = 'right';
+
+        return $this->renderOutput();
     }
 
     public function getPortfolio()

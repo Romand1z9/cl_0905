@@ -34,27 +34,32 @@ abstract class Repository
 
         return $this->check($builder->get());
     }
-    
-    	protected function check($result) 
+
+    public function one($alias)
+    {
+        $result = $this->model->where('alias', $alias)->first();
+
+        return $result ? $result : FALSE;
+    }
+
+    protected function check($result)
+    {
+        if($result->isEmpty())
         {
-		
-            if($result->isEmpty()) 
+            return FALSE;
+        }
+
+        $result->transform(function($item,$key)
+        {
+            if(is_string($item->img) && is_object(json_decode($item->img)) && (json_last_error() == JSON_ERROR_NONE))
             {
-                return FALSE;
+                $item->img = json_decode($item->img);
             }
-		
-            $result->transform(function($item,$key) 
-                {
-                    if(is_string($item->img) && is_object(json_decode($item->img)) && (json_last_error() == JSON_ERROR_NONE)) 
-                    {
-                    $item->img = json_decode($item->img);
-                    }
 
-                    return $item;			
-            });
+            return $item;
+        });
 
-            return $result;
-		
-	}
+        return $result;
+    }
 
 }
