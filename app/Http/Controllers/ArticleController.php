@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use Illuminate\Http\Request;
 use Config;
 
@@ -23,14 +24,14 @@ class ArticleController extends AppController
         $this->template = env('THEME').'.articles';
     }
 
-    public function index()
+    public function index($alias = FALSE)
     {
         $this->title = 'Articles Page';
         $this->keywords = 'Articles Page';
         $this->meta_description = 'Articles Page';
         
 
-        $articles_items = $this->getArticles();
+        $articles_items = $this->getArticles($alias);
         $portfolio_items = $this->getPortfolio();
         $comments = $this->getComments(Config::get('settings.articles_comments_count'));
 
@@ -64,9 +65,21 @@ class ArticleController extends AppController
     	return $portfolio;
     }
 
-    public function getArticles()
+    public function getArticles($category_alias = FALSE)
     {
-        $articles = $this->a_rep->get(['id','title', 'alias', 'desc', 'img', 'created_at','user_id','category_id'], FALSE, TRUE);
+        $where = [];
+
+        if ($category_alias)
+        {
+            $category_id = Category::where('alias', $category_alias)->first()->id;
+
+            if ($category_id)
+            {
+                $where['category_id'] = $category_id;
+            }
+        }
+
+        $articles = $this->a_rep->get(['id','title', 'alias', 'desc', 'img', 'created_at','user_id','category_id'], FALSE, TRUE, $where);
 
         if($articles->isEmpty()) 
         {
@@ -83,7 +96,7 @@ class ArticleController extends AppController
 
     public function getComments($take) {
 
-        $comments = $this->c_rep->get(['text','name','email','site','article_id','user_id'],$take, FALSE, 'created_at');
+        $comments = $this->c_rep->get(['text','name','email','site','article_id','user_id'],$take, FALSE, FALSE, 'created_at');
 
         if($comments) {
             $comments->load('article','user');

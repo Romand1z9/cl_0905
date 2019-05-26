@@ -8,9 +8,14 @@ abstract class Repository
 {
     protected $model = FALSE;
 
-    public function get($select = "*", $limit = FALSE, $paginate = FALSE, $order_by = FALSE)
+    public function get($select = "*", $limit = FALSE, $paginate = FALSE, $where = FALSE, $order_by = FALSE)
     {
         $builder = $this->model->select($select);
+
+        if ($where)
+        {
+            $builder->where($where);
+        }
 
         if ($order_by)
         {
