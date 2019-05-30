@@ -52,7 +52,7 @@ class ArticleController extends AppController
         {
             $this->title = $article->title;
             $this->keywords = $article->title;
-            $this->meta_description =$article->title;
+            $this->meta_description = $article->title;
         }
         $portfolio_items = $this->getPortfolio();
         $comments = $this->getComments(Config::get('settings.articles_comments_count'));
@@ -108,6 +108,8 @@ class ArticleController extends AppController
     }
 
     public function getComments($take) {
+
+        $comments = [];
 
         $comments = $this->c_rep->get(['text','name','email','site','article_id','user_id'],$take, FALSE, FALSE, 'created_at');
 

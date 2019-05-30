@@ -7,3 +7,5 @@ Route::resource('portfolios', 'PortfolioController', ['parameters' => ['portfoli
 Route::resource('articles', 'ArticleController', ['parameters' => ['articles' => 'alias']]);
 
 Route::get('articles/category/{alias?}', ['uses'=>'ArticleController@index','as'=>'articlesCategory']);
+
+Route::resource('comment','CommentController',['only'=>['store']]);
