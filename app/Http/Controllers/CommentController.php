@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Article;
+use App\Comment;
+use App\User;
 
-class CommentController extends Controller
+class CommentController extends AppController
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +39,48 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        return json_encode(['success' => "OK"]);
+
+        $data = $request->except('_token','comment_post_ID','comment_parent');
+
+        $data['article_id'] = $request->input('comment_post_ID');
+        $data['parent_id'] = $request->input('comment_parent');
+
+        $validator = Validator::make($data,[
+            'article_id' => 'integer|required',
+            'parent_id' => 'integer|required',
+            'text' => 'string|required'
+        ]);
+
+        $validator->sometimes(['name','email'],'required|max:255',function($input) {
+            return !Auth::check();
+        });
+
+        if($validator->fails()) {
+            return \Response::json(['error'=>$validator->errors()->all()]);
+        }
+
+        $user = Auth::user();
+
+        $comment = new Comment($data);
+
+        if($user) {
+            $comment->user_id = $user->id;
+        }
+
+        $post = Article::find($data['article_id']);
+
+        if ($post)
+        {
+            $post->comments()->save($comment);
+        }
+        else
+        {
+            return \Response::json(['error'=>'Article not found!']);
+        }
+
+        return \Response::json(['success'=>'Comment added!']);
+
+        //exit();
     }
 
     /**

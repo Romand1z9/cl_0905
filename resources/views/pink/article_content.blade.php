@@ -79,11 +79,9 @@
                      <p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
                  @endif
 
-                 <p class="comment-form-comment"><label for="comment">Your comment</label><textarea id="comment" name="comment" cols="45" rows="8"></textarea></p>
+                 <p class="comment-form-comment"><label for="comment">Your comment</label><textarea id="comment" name="text" cols="45" rows="8"></textarea></p>
                  <div class="clear"></div>
                  <p class="form-submit">
-
-
                      {{ csrf_field() }}
                      <input id="comment_post_ID" type="hidden" name="comment_post_ID" value="{{ $article->id }}" />
                      <input id="comment_parent" type="hidden" name="comment_parent" value="" />
@@ -126,6 +124,7 @@
 
                     url:$('#commentform').attr('action'),
                     data:data,
+                    headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:'POST',
                     datatype:'JSON',
                     success: function(html) {
