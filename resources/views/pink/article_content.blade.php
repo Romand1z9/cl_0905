@@ -74,9 +74,9 @@
              <form action="{{ route('comment.store') }}" method="post" id="commentform">
 
                  @if(!Auth::check())
-                     <p class="comment-form-author"><label for="author">Name</label> <input id="author" name="author" type="text" value="" size="30" aria-required="true" /></p>
+                     <p class="comment-form-author"><label for="author">Name</label> <input id="author" name="name" type="text" value="" size="30" aria-required="true" /></p>
                      <p class="comment-form-email"><label for="email">Email</label> <input id="email" name="email" type="text" value="" size="30" aria-required="true" /></p>
-                     <p class="comment-form-url"><label for="url">Website</label><input id="url" name="url" type="text" value="" size="30" /></p>
+                     <p class="comment-form-url"><label for="url">Website</label><input id="site" name="site" type="text" value="" size="30" /></p>
                  @endif
 
                  <p class="comment-form-comment"><label for="comment">Your comment</label><textarea id="comment" name="text" cols="45" rows="8"></textarea></p>
@@ -84,7 +84,7 @@
                  <p class="form-submit">
                      {{ csrf_field() }}
                      <input id="comment_post_ID" type="hidden" name="comment_post_ID" value="{{ $article->id }}" />
-                     <input id="comment_parent" type="hidden" name="comment_parent" value="" />
+                     <input id="comment_parent" type="hidden" name="comment_parent" value="0" />
                      <input name="submit" type="submit" id="submit" value="Post Comment" />
                  </p>
              </form>
@@ -113,29 +113,30 @@
 
             var comParent = $(this);
 
-            $('.wrap_result').
+            var data = $('#commentform').serializeArray();
+
+            $.ajax({
+
+                url:$('#commentform').attr('action'),
+                data:data,
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                type:'POST',
+                datatype:'JSON',
+                success: function(html) {
+                    console.log(html);
+                },
+                error:function() {
+
+                }
+
+            });
+
+            /*$('.wrap_result').
             css('color','green').
             text(messages.saving_comment).
             fadeIn(500,function() {
 
-                var data = $('#commentform').serializeArray();
-
-                $.ajax({
-
-                    url:$('#commentform').attr('action'),
-                    data:data,
-                    headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    type:'POST',
-                    datatype:'JSON',
-                    success: function(html) {
-                        console.log(html);
-                    },
-                    error:function() {
-
-                    }
-
-                });
-            });
+            });*/
 
         });
 
