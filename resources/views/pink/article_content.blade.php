@@ -40,7 +40,7 @@
     <!-- START COMMENTS -->
      <div id="comments">
         <h3 id="comments-title">
-            <span>{{ count($article->comments) }}</span> {{ Lang::choice('ru.comments',count($article->comments)) }}    
+            <span>{{ count($article->comments) }}</span> {{ Lang::choice('blog.comments',count($article->comments)) }}
         </h3>
 
          @if(count($article->comments) > 0)
@@ -100,7 +100,7 @@
     jQuery(document).ready(function($) {
 
         var messages = {
-            saving_comment: "<?php echo Lang::get('saving_comment'); ?>"
+            saving_comment: "<?php echo Lang::get('blog.saving_comment'); ?>"
         };
 
         $('.commentlist li').each(function(i) {
@@ -115,28 +115,65 @@
 
             var data = $('#commentform').serializeArray();
 
-            $.ajax({
+            $('.wrap_result').css('color','green').text(messages.saving_comment).fadeIn(500,function()
+            {
+                $.ajax({
+                    url:$('#commentform').attr('action'),
+                    data:data,
+                    headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    type:'POST',
+                    datatype:'JSON',
+                    success: function(response)
+                    {
+                        if(response.error)
+                        {
+                            $('.wrap_result').css('color','red').append('<br /><strond>Ошибка: </strong>' + response.error.join('<br />'));
+                            $('.wrap_result').delay(2000).fadeOut(500);
+                        }
+                        else if(response.success)
+                        {
+                            $('.wrap_result')
+                                .append('<br /><strong>Сохранено!</strong>')
+                                .delay(2000)
+                                .fadeOut(500,function()
+                                {
 
-                url:$('#commentform').attr('action'),
-                data:data,
-                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type:'POST',
-                datatype:'JSON',
-                success: function(html) {
-                    console.log(html);
-                },
-                error:function() {
+                                    if(response.data.parent_id > 0)
+                                    {
+                                        comParent.parents('div#respond').prev().after('<ul class="children">' + response.comment + '</ul>');
+                                    }
+                                    else
+                                    {
+                                        if($('#comments ol').is('.commentlist'))
+                                        {
+                                            $('ol.commentlist').append(response.comment);
+                                        }
+                                        else
+                                        {
+                                            $('#respond').before('<ol class="commentlist group">' + response.comment + '</ol>');
 
-                }
+                                        }
+                                    }
 
+
+
+                                    $('#cancel-comment-reply-link').click();
+                                    $('#commentform')[0].reset();
+                                })
+
+                        }
+
+                    },
+                    error:function()
+                    {
+                        $('.wrap_result').css('color','red').append('<br /><strond>Ошибка: </strong>');
+                        $('.wrap_result').delay(2000).fadeOut(500, function() {
+                            $('#cancel-comment-reply-link').click();
+                        });
+                    }
+
+                });
             });
-
-            /*$('.wrap_result').
-            css('color','green').
-            text(messages.saving_comment).
-            fadeIn(500,function() {
-
-            });*/
 
         });
 

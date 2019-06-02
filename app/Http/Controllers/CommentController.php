@@ -48,14 +48,17 @@ class CommentController extends AppController
         $validator = Validator::make($data,[
             'article_id' => 'integer|required',
             'parent_id' => 'integer|required',
-            'text' => 'string|required'
+            'text' => 'string|required',
+            'email' => 'string|email',
         ]);
 
-        $validator->sometimes(['name','email'],'required|max:255',function($input) {
+        $validator->sometimes(['name','email'],'required|max:255',function($input)
+        {
             return !Auth::check();
         });
 
-        if($validator->fails()) {
+        if($validator->fails())
+        {
             return \Response::json(['error'=>$validator->errors()->all()]);
         }
 
@@ -63,7 +66,8 @@ class CommentController extends AppController
 
         $comment = new Comment($data);
 
-        if($user) {
+        if($user)
+        {
             $comment->user_id = $user->id;
         }
 
@@ -72,15 +76,28 @@ class CommentController extends AppController
         if ($post)
         {
             $post->comments()->save($comment);
+
+            $comment->load('user');
+            $data['id'] = $comment->id;
+
+            $data['email'] = (!empty($data['email'])) ? $data['email'] : $comment->user->email;
+            $data['name'] = (!empty($data['name'])) ? $data['name'] : $comment->user->name;
+
+
+            $data['hash'] = md5($data['email']);
+
+            $view_comment = view(env('THEME').'.content_one_comment')->with('data',$data)->render();
+
+            return \Response::json(['success' => TRUE,'comment'=>$view_comment,'data' => $data]);
         }
         else
         {
             return \Response::json(['error'=>'Article not found!']);
         }
 
-        return \Response::json(['success'=>'Comment added!']);
+        //return \Response::json(['success'=>'Comment added!']);
 
-        //exit();
+        exit();
     }
 
     /**

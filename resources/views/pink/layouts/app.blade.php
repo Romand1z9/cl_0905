@@ -126,6 +126,9 @@
 	
                 <!-- START SLIDER -->
                 @yield('slider')
+
+                <div class="wrap_result"></div>
+
 				<!-- START PRIMARY -->
 				<div id="primary" class="sidebar-{{ $sidebar }}">
 				    <div class="inner group">
