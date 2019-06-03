@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\MenusRepository;
+use Illuminate\Support\Facades\Config;
 use Menu;
 
 class AppController extends Controller
@@ -65,6 +66,7 @@ class AppController extends Controller
 			
             foreach($menu as $item) 
             {
+                $item->path = env('APP_URL').$item->path;
 				
                 if($item->parent == 0) 
                 {
