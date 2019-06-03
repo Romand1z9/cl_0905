@@ -37,9 +37,9 @@ class ArticleController extends AppController
 
         $this->sidebar = 'right';
 
-        $this->title = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : 'Articles Page';
-        $this->keywords = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : 'Articles Page';
-        $this->meta_description = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : 'Articles Page';
+        $this->title = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : Lang::get('blog.title');
+        $this->keywords = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : Lang::get('blog.title');
+        $this->meta_description = ($alias && isset($articles_items[0])) ? $articles_items[0]->category->title : Lang::get('blog.title');
 
         return $this->renderOutput();
     }

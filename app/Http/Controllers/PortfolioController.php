@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\Repositories\PortfoliosRepository;
 
+use Illuminate\Support\Facades\Lang;
+
 class PortfolioController extends AppController
 {
     public function __construct(PortfoliosRepository $p_rep)
@@ -22,9 +24,9 @@ class PortfolioController extends AppController
     public function index()
     {
         //
-        $this->title = 'Портфолио';
-        $this->keywords = 'Портфолио';
-        $this->meta_desc = 'Портфолио';
+        $this->title = Lang::get('portfolios.title');
+        $this->keywords = Lang::get('portfolios.title');
+        $this->meta_description = Lang::get('portfolios.title');
 
         $portfolios = $this->getPortfolios();
 
@@ -34,9 +36,25 @@ class PortfolioController extends AppController
         return $this->renderOutput();
     }
 
-    public function getPortfolios()
+    public function show($alias)
     {
-        $portfolios = $this->p_rep->get('*',FALSE,TRUE);
+        $portfolio = $this->p_rep->one($alias);
+        $portfolios = $this->getPortfolios(config('settings.other_portfolios'), FALSE);
+
+        $this->title = $portfolio->title;
+        $this->keywords = $portfolio->keywords;
+        $this->meta_desc = $portfolio->meta_desc;
+
+        $content = view(env('THEME').'.portfolio_content')->with(['portfolio' => $portfolio,'portfolios' => $portfolios])->render();
+        $this->vars['content'] = $content;
+
+        return $this->renderOutput();
+    }
+
+    public function getPortfolios($take = FALSE, $paginate = TRUE)
+    {
+        $portfolios = $this->p_rep->get('*', $take, $paginate);
+
         if($portfolios)
         {
             $portfolios->load('filter');
