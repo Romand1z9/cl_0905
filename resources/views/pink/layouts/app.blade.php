@@ -128,7 +128,16 @@
                 @yield('slider')
 
                 <div class="wrap_result"></div>
-
+                @if(Route::currentRouteName() == 'portfolios.index')
+                    <!-- START PAGE META -->
+                        <div id="page-meta">
+                            <div class="inner group">
+                                <h3>Welcome to my portfolio page</h3>
+                                <h4>... i hope you enjoy my works</h4>
+                            </div>
+                        </div>
+                        <!-- END PAGE META -->
+                @endif
 				<!-- START PRIMARY -->
 				<div id="primary" class="sidebar-{{ $sidebar }}">
 				    <div class="inner group">

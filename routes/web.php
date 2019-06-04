@@ -6,6 +6,9 @@ Route::resource('portfolios', 'PortfolioController', ['parameters' => ['portfoli
 
 Route::resource('articles', 'ArticleController', ['parameters' => ['articles' => 'alias']]);
 
-Route::get('articles/category/{alias?}', ['uses'=>'ArticleController@index','as'=>'articlesCategory']);
+//Route::get('articles/category/{alias?}', ['uses'=>'ArticleController@index','as'=>'articlesCategory']);
+Route::get('articles/category/{alias?}', ['uses'=>'ArticleController@index','as'=>'articlesCategory'])->where('alias','[\w-]+');;
 
 Route::resource('comment','CommentController',['only'=>['store']]);
+
+Route::match(['get','post'],'/contacts',['uses'=>'ContactsController@index','as'=>'contacts']);

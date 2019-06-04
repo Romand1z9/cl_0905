@@ -49,6 +49,12 @@ class AppController extends Controller
             $this->vars['right_bar'] = $right_bar;
         }
 
+        if($this->contentLeftBar)
+        {
+            $left_bar = view(env('THEME').'.left_bar')->with('content_left_bar',$this->contentLeftBar)->render();
+            $this->vars['left_bar'] = $left_bar;
+        }
+
         $this->vars['sidebar'] = $this->sidebar;
 
         $footer = view(env('THEME').'.footer')->render();
