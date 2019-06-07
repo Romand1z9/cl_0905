@@ -63,7 +63,7 @@ class AppController extends Controller
         return view($this->template)->with($this->vars);
     }
 
-    protected function getMenu()
+    public function getMenu()
     {
         $menu = $this->m_rep->get();
 

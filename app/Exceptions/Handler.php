@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Lang;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +47,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($this->isHttpException($exception)) {
+            $statusCode = $exception->getStatusCode();
+
+            switch($statusCode) {
+                case '404' :
+
+                    $obj = new \App\Http\Controllers\AppController(new \App\Repositories\MenusRepository(new \App\Menu));
+
+                    $navigation = view(env('THEME').'.navigation')->with('menu',$obj->getMenu())->render();
+
+                    //\Log::alert('Страница не найдена - '. $request->url());
+
+                    return response()->view(env('THEME').'.404',['sidebar' => 'no','title' => Lang::get('errors.page_not_found'),'navigation'=>$navigation]);
+            }
+        }
         return parent::render($request, $exception);
     }
 }
