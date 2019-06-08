@@ -25,7 +25,11 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin';
+
+    protected $loginView;
+
+    protected $username = 'login';
 
     /**
      * Create a new controller instance.
@@ -35,5 +39,25 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+
+        $this->loginView = env('THEME').'.login';
     }
+
+    public function username()
+    {
+        return $this->username;
+    }
+
+    public function showLoginForm()
+    {
+        $view = property_exists($this, 'loginView') ? $this->loginView : '';
+
+        if (view()->exists($view))
+        {
+            return view($view)->with(['title' => 'Вход на сайт', 'sidebar' => 'no']);
+        }
+
+        abort(404);
+    }
+
 }
