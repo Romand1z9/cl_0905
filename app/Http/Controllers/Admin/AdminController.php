@@ -58,11 +58,11 @@ class AdminController extends Controller
     {
         return Menu::make('adminMenu', function($menu)
         {
-            $menu->add(Lang::get('admin_menu_items_articles'), array('route' => 'admin.articles.index'));
-            $menu->add(Lang::get('admin_menu_items_portfolio'),  array('route'  => 'admin.articles.index'));
-            $menu->add(Lang::get('admin_menu_items_menu'),  array('route'  => 'admin.articles.index'));
-            $menu->add(Lang::get('admin_menu_items_users'),  array('route'  => 'admin.articles.index'));
-            $menu->add(Lang::get('admin_menu_items_permissions'),  array('route'  => 'admin.articles.index'));
+            $menu->add(Lang::get('admin.admin_menu_items_articles'), array('route' => 'articles.index'));
+            $menu->add(Lang::get('admin.admin_menu_items_portfolio'), array('route' => 'articles.index'));
+            $menu->add(Lang::get('admin.admin_menu_items_menu'), array('route' => 'articles.index'));
+            $menu->add(Lang::get('admin.admin_menu_items_users'), array('route' => 'articles.index'));
+            $menu->add(Lang::get('admin.admin_menu_items_permissions'), array('route' => 'articles.index'));
         });
     }
 
