@@ -12,7 +12,7 @@ Route::resource('comment','CommentController',['only'=>['store']]);
 
 Route::match(['get','post'],'/contacts',['uses'=>'ContactsController@index','as'=>'contacts']);
 
-Route::get('login','Auth\LoginController@showLoginForm');
+Route::get('login', ['uses' => 'Auth\LoginController@showLoginForm', 'as' => 'login']);
 
 Route::post('login','Auth\LoginController@login');
 
