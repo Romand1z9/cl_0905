@@ -26,12 +26,7 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->user = Auth::user();
 
-        if(!$this->user)
-        {
-            //abort(403);
-        }
     }
 
     public function renderOutput()
@@ -64,6 +59,16 @@ class AdminController extends Controller
             $menu->add(Lang::get('admin.admin_menu_items_users'), array('route' => 'articles.index'));
             $menu->add(Lang::get('admin.admin_menu_items_permissions'), array('route' => 'articles.index'));
         });
+    }
+
+    protected function is_login()
+    {
+        $this->user = Auth::user();
+
+        if(!$this->user)
+        {
+            abort(403);
+        }
     }
 
 }

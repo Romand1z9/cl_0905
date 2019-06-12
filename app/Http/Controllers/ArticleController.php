@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use Config;
+use Illuminate\Support\Facades\Lang;
 
 use App\Repositories\PortfoliosRepository;
 use App\Repositories\ArticlesRepository;
@@ -70,7 +71,7 @@ class ArticleController extends AppController
     {
         $portfolio = $this->p_rep->get('*', Config::get('settings.articles_portfolio_count'));
         
-        if($portfolio->isEmpty()) 
+        if(empty($portfolio))
         {
             return FALSE;
 	}
@@ -84,17 +85,21 @@ class ArticleController extends AppController
 
         if ($category_alias)
         {
-            $category_id = Category::where('alias', $category_alias)->first()->id;
+            $category = Category::where('alias', $category_alias)->first();
 
-            if ($category_id)
+            if ($category)
             {
-                $where['category_id'] = $category_id;
+                $where['category_id'] = $category->id;
+            }
+            else
+            {
+                return FALSE;
             }
         }
 
         $articles = $this->a_rep->get(['id','title', 'alias', 'desc', 'img', 'created_at','user_id','category_id'], FALSE, TRUE, $where);
 
-        if($articles->isEmpty()) 
+        if(empty($articles))
         {
             return FALSE;
         }

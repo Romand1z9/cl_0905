@@ -18,7 +18,9 @@ class IndexController extends AdminController
 
     public function index()
     {
-        $this->title = Lang::get('admin_index_title');
+        $this->is_login();
+
+        $this->title = Lang::get('admin.admin_index_title');
 
         return $this->renderOutput();
 
