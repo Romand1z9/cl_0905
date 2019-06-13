@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\ArticlesRepository;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Lang;
+use App\Category;
 
 class ArticleController extends AdminController
 {
@@ -48,7 +49,32 @@ class ArticleController extends AdminController
      */
     public function create()
     {
-        //
+        if(Gate::denies('save', new \App\Article))
+        {
+            abort(403);
+        }
+
+        $this->title = Lang::get('admin.add_new_material');
+
+        $categories = Category::select(['title','alias','parent_id','id'])->get();
+
+        $lists = array();
+
+        foreach($categories as $category)
+        {
+            if($category->parent_id == 0)
+            {
+                $lists[$category->title] = array();
+            }
+            else
+            {
+                $lists[$categories->where('id',$category->parent_id)->first()->title][$category->id] = $category->title;
+            }
+        }
+
+        $this->content = view(env('THEME').'.admin.articles_create_content')->with('categories', $lists)->render();
+
+        return $this->renderOutput();
     }
 
     /**

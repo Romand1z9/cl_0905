@@ -1,7 +1,7 @@
 <div id="copyright">
     <div class="inner group">
         <div class="left">
-            <a href="http://yithemes.com/?ddownload=2046&ap_id=pinkrio-html"><strong>Download the free version for Wordpress</strong></a>
+
         </div>
         <div class="right">
             <a href="#" class="socials-small facebook-small" title="Facebook">facebook</a>
