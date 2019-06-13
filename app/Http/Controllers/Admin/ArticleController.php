@@ -4,9 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\ArticlesRepository;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Lang;
 
-class ArticleController extends Controller
+class ArticleController extends AdminController
 {
+
+    public function __construct(ArticlesRepository $a_rep)
+    {
+        parent::__construct();
+
+        $this->a_rep = $a_rep;
+
+        $this->template = env('THEME').'.admin.articles';
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +27,18 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        if(Gate::denies('VIEW_ADMIN_ARTICLES'))
+        {
+            abort(403);
+        }
+
+        $this->title = Lang::get('admin.articles_list');
+
+        $articles = $this->getArticles();
+        $this->content = view(env('THEME').'.admin.articles_content')->with('articles',$articles)->render();
+
+        return $this->renderOutput();
+
     }
 
     /**
@@ -82,4 +106,10 @@ class ArticleController extends Controller
     {
         //
     }
+
+    public function getArticles()
+    {
+        return $this->a_rep->get();
+    }
+
 }
