@@ -28,4 +28,5 @@
         'enter_page_text' => 'Enter page\'s text',
         'file_not_exists' => 'File not exists',
         'save' => 'Save',
+        'material_is_added' => 'Material is added',
     ];
