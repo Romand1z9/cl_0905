@@ -75,7 +75,7 @@
                             <span class="label">{{ Lang::get('admin.image') }}:</span>
                         </label>
 
-                        {{ HTML::image(asset(env('THEME')).'/images/articles/'.$article->img->path,'',['style'=>'width:400px']) }}
+                        {{ Html::image(asset(env('THEME')).'/images/articles/'.$article->img->path,'',['style'=>'width:400px']) }}
                         {!! Form::hidden('old_image',$article->img->path) !!}
 
                     </li>

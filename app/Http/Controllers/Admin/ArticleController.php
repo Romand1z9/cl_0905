@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\ArticlesRepository;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Lang;
+use App\Article;
 use App\Category;
 
 class ArticleController extends AdminController
@@ -112,9 +113,43 @@ class ArticleController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($alias)
     {
-        //
+        if(Gate::denies('edit', new Article))
+        {
+            abort(403);
+        }
+
+        $article = Article::where('alias', $alias)->first();
+
+        if (empty($article))
+        {
+            abort(404);
+        }
+
+        $article->img = json_decode($article->img);
+
+        $categories = Category::select(['title','alias','parent_id','id'])->get();
+
+        $lists = array();
+
+        foreach($categories as $category)
+        {
+            if($category->parent_id == 0)
+            {
+                $lists[$category->title] = array();
+            }
+            else
+            {
+                $lists[$categories->where('id',$category->parent_id)->first()->title][$category->id] = $category->title;
+            }
+        }
+
+        $this->title = Lang::get('admin.edit_material').' - '. $article->title;
+
+        $this->content = view(env('THEME').'.admin.articles_create_content')->with(['categories' => $lists, 'article' => $article])->render();
+
+        return $this->renderOutput();
     }
 
     /**
@@ -126,7 +161,7 @@ class ArticleController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request);
     }
 
     /**
