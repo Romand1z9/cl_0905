@@ -198,31 +198,4 @@ class ArticlesRepository extends Repository
 
     }
 
-    protected function deleteImages($images = array(), $path = NULL)
-    {
-        if (empty($images) && empty($path) && !is_dir($path))
-        {
-            return FALSE;
-        }
-
-        try
-        {
-            foreach($images as $image)
-            {
-                if (file_exists($path.$image))
-                {
-                    unlink($path.$image);
-                }
-            }
-        }
-        catch (\Exception $e)
-        {
-            Log::error('Не удалось удалить изображения');
-            return FALSE;
-        }
-
-        return TRUE;
-
-    }
-
 }
