@@ -185,7 +185,22 @@ class ArticleController extends AdminController
      */
     public function destroy($alias)
     {
-        dd($alias);
+        $article = $this->a_rep->one($alias);
+
+        if (empty($article))
+        {
+            abort(404);
+        }
+
+        $result = $this->a_rep->deleteArticle($article);
+
+        if(is_array($result) && !empty($result['error']))
+        {
+            return back()->with($result);
+        }
+
+        return redirect('/admin')->with($result);
+        
     }
 
     public function getArticles()

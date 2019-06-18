@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\User;
+use App\Article;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ArticlePolicy
@@ -27,6 +28,11 @@ class ArticlePolicy
     public function edit(User $user)
     {
         return $user->canDo('UPDATE_ARTICLES');
+    }
+
+    public function destroy(User $user, Article $article)
+    {
+        return ($user->canDo('DELETE_ARTICLES')  && $user->id == $article->user_id);
     }
 
 

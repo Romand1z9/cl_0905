@@ -30,5 +30,6 @@
         'save' => 'Save',
         'material_is_added' => 'Material is added',
         'material_is_updated' => 'Material is updated',
+        'material_is_deleted' => 'Material is deleted',
         'edit_material' => 'Edit material',
     ];

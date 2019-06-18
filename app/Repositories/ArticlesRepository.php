@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Config;
 use Image;
 use Lang;
+use Log;
 
 class ArticlesRepository extends Repository
 {
@@ -153,8 +154,13 @@ class ArticlesRepository extends Repository
                 $img->fit(Config::get('settings.articles_img')['mini']['width'],
                     Config::get('settings.articles_img')['mini']['height'])->save(public_path().'/'.env('THEME').'/images/articles/'.$obj->mini);
 
-
                 $data['img'] = json_encode($obj);
+
+                if (isset($article->img))
+                {
+                    $this->deleteImages(json_decode($article->img), public_path()."/".env('THEME')."/images/articles/");
+                }
+
             }
 
         }
@@ -165,6 +171,57 @@ class ArticlesRepository extends Repository
         {
             return ['status' => Lang::get('admin.material_is_updated')];
         }
+
+    }
+
+    public function deleteArticle($article)
+    {
+
+        if(Gate::denies('destroy', $article))
+        {
+            abort(403);
+        }
+
+        $article->comments()->delete();
+
+        if($article->delete())
+        {
+
+            if (isset($article->img))
+            {
+                $images = $article->img;
+                $this->deleteImages($images, public_path()."/".env('THEME')."/images/articles/");
+            }
+
+            return ['status' => Lang::get('admin.material_is_deleted')];
+        }
+
+    }
+
+    protected function deleteImages($images = array(), $path = NULL)
+    {
+        if (empty($images) && empty($path) && !is_dir($path))
+        {
+            return FALSE;
+        }
+
+        try
+        {
+            foreach($images as $image)
+            {
+                if (file_exists($path.$image))
+                {
+                    unlink($path.$image);
+                }
+            }
+        }
+        catch (\Exception $e)
+        {
+            Log::error('Не удалось удалить изображения');
+            return FALSE;
+        }
+
+        return TRUE;
 
     }
 

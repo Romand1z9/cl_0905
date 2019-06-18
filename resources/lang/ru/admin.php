@@ -30,5 +30,6 @@
         'save' => 'Сохранить',
         'material_is_added' => 'Материал добавлен',
         'material_is_updated' => 'Материал обновлён',
+        'material_is_deleted' => 'Материал удалён',
         'edit_material' => 'Реадактирование материала',
     ];
