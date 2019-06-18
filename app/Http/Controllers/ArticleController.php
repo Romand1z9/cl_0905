@@ -49,12 +49,15 @@ class ArticleController extends AppController
     {
         $article = $this->a_rep->one($alias, ['comments']);
 
-        if ($article)
+        if (empty($article))
         {
-            $this->title = $article->title;
-            $this->keywords = $article->title;
-            $this->meta_description = $article->title;
+            abort(404);
         }
+
+        $this->title = $article->title;
+        $this->keywords = $article->title;
+        $this->meta_description = $article->title;
+
         $portfolio_items = $this->getPortfolio();
         $comments = $this->getComments(Config::get('settings.articles_comments_count'));
 

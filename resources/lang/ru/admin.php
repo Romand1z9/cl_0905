@@ -29,5 +29,6 @@
         'file_not_exists' => 'Нет файла',
         'save' => 'Сохранить',
         'material_is_added' => 'Материал добавлен',
+        'material_is_updated' => 'Материал обновлён',
         'edit_material' => 'Реадактирование материала',
     ];

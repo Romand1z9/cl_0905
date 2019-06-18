@@ -9,7 +9,7 @@
             <div class="hentry-post group">
                 <div class="thumb-img"><img src="{{asset(env('THEME'))}}/images/articles/{{ $article->img->mini }}" alt=">{{ $article->title }}" title=">{{ $article->title }}" /></div>
                 <div class="text">
-                    <a href="{{ route('articles.show',['alias'=>$article->alias]) }}" title="Section shortcodes &amp; sticky posts!" class="title">{{ $article->title }}</a>
+                    <a href="/articles/{{ $article->alias }}" title="Section shortcodes &amp; sticky posts!" class="title">{{ $article->title }}</a>
                     <p class="post-date">{{ $article->created_at->format('d.m.Y') }}</p>
                 </div>
             </div>

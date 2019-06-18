@@ -7,7 +7,7 @@
             <!-- post featured & title -->
             <div class="thumbnail">
                 <!-- post title -->
-                <h2 class="post-title"><a href="{{ route('articles.show',['alias'=>$article->alias]) }}">{{ $article->title }}</a></h2>
+                <h2 class="post-title"><a href="/articles/{{ $article->alias }}">{{ $article->title }}</a></h2>
                 <!-- post featured -->
                 <div class="image-wrap">
                     <img src="{{ asset(env('THEME')) }}/images/articles/{{ $article->img->max }}" alt="001" title="001" />        
@@ -21,12 +21,12 @@
             <div class="meta group">
                 <p class="author"><span>by <a href="#" title="Posts by {{ $article->user->name }}" rel="author">{{ $article->user->name }}</a></span></p>
                 <p class="categories"><span>In: <a href="{{ route('articlesCategory',['alias' => $article->category->alias]) }}" title="View all posts in {{ $article->category->title }}" rel="category tag">{{ $article->category->title }}</a></span></p>
-                <p class="comments"><span><a href="{{ route('articles.show',['alias'=>$article->alias]) }}#respond" title="Comment on Section shortcodes &amp; sticky posts!">{{ count($article->comments) ? count($article->comments) : '0' }} {{ Lang::choice('blog.comments',count($article->comments)) }}</a></span></p>
+                <p class="comments"><span><a href="/articles/{{ $article->alias }}#respond" title="Comment on Section shortcodes &amp; sticky posts!">{{ count($article->comments) ? count($article->comments) : '0' }} {{ Lang::choice('blog.comments',count($article->comments)) }}</a></span></p>
             </div>
             <!-- post content -->
             <div class="the-content group">
                 <p>{!!  str_limit($article->desc, 200) !!}</p>
-                <p><a href="{{ route('articles.show', ['alias' => $article->alias]) }}" class="btn   btn-beetle-bus-goes-jamba-juice-4 btn-more-link">> {!! trans('blog.read_more') !!}</a></p>
+                <p><a href="/articles/{{ $article->alias }}" class="btn   btn-beetle-bus-goes-jamba-juice-4 btn-more-link">> {!! trans('blog.read_more') !!}</a></p>
             </div>
             <div class="clear"></div>
         </div>

@@ -120,14 +120,12 @@ class ArticleController extends AdminController
             abort(403);
         }
 
-        $article = Article::where('alias', $alias)->first();
+        $article = $this->a_rep->one($alias);
 
         if (empty($article))
         {
             abort(404);
         }
-
-        $article->img = json_decode($article->img);
 
         $categories = Category::select(['title','alias','parent_id','id'])->get();
 
@@ -159,9 +157,24 @@ class ArticleController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $alias)
     {
-        dd($request);
+        $article = $article = Article::where('alias', $alias)->first();
+
+        if (empty($article))
+        {
+            abort(404);
+        }
+
+        $result = $this->a_rep->updateArticle($request, $article);
+
+        if(is_array($result) && !empty($result['error'])) {
+            return back()->with($result);
+        }
+
+        return redirect('/admin')->with($result);
+
+        //dd($request);
     }
 
     /**
@@ -170,9 +183,9 @@ class ArticleController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($alias)
     {
-        //
+        dd($alias);
     }
 
     public function getArticles()

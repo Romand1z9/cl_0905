@@ -151,7 +151,7 @@ class IndexController extends AppController
 
     public function getArticles()
     {
-        $articles = $this->a_rep->get(['title', 'alias', 'img', 'created_at'], Config::get('settings.home_articles_count'));
+        $articles = $this->a_rep->get(['title', 'alias', 'img', 'created_at'], Config::get('settings.home_articles_count'), FALSE, FALSE, 'created_at');
         
         if($articles->isEmpty()) 
         {

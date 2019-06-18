@@ -29,5 +29,6 @@
         'file_not_exists' => 'File not exists',
         'save' => 'Save',
         'material_is_added' => 'Material is added',
+        'material_is_updated' => 'Material is updated',
         'edit_material' => 'Edit material',
     ];
