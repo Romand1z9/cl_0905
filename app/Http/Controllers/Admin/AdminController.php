@@ -64,7 +64,7 @@ class AdminController extends Controller
             $menu->add(Lang::get('admin.admin_menu_items_portfolio'), array('route' => 'articles.index'));
             $menu->add(Lang::get('admin.admin_menu_items_menu'), array('route' => 'articles.index'));
             $menu->add(Lang::get('admin.admin_menu_items_users'), array('route' => 'articles.index'));
-            $menu->add(Lang::get('admin.admin_menu_items_permissions'), array('route' => 'articles.index'));
+            $menu->add(Lang::get('admin.admin_menu_items_permissions'), array('route' => 'permissions.index'));
         });
     }
 

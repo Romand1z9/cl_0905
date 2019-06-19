@@ -32,4 +32,6 @@
         'material_is_updated' => 'Материал обновлён',
         'material_is_deleted' => 'Материал удалён',
         'edit_material' => 'Реадактирование материала',
+        'manager_permission' => 'Управление правами пользователей',
+        'permissions_settings_are_updated' => 'Настройки прав обновлены'
     ];

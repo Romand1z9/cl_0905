@@ -5,7 +5,7 @@
         'admin_menu_items_portfolio' => 'Portfolio',
         'admin_menu_items_menu' => 'Menu',
         'admin_menu_items_users' => 'Users',
-        'admin_menu_items_permissions' => 'Permission',
+        'admin_menu_items_permissions' => 'Permissions',
         'articles_list' => 'Article\'s list.',
         'added_articles' => 'Added articles',
         'name' => 'Name',
@@ -32,4 +32,6 @@
         'material_is_updated' => 'Material is updated',
         'material_is_deleted' => 'Material is deleted',
         'edit_material' => 'Edit material',
+        'manager_permission' => 'User permissions management',
+        'permissions_settings_are_updated' => 'Settings of permissions are updated',
     ];

@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Article;
+use App\Permission;
 use App\Policies\ArticlePolicy;
+use App\Policies\PermissionPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -18,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         //'App\Model' => 'App\Policies\ModelPolicy',
         Article::class => ArticlePolicy::class,
+        Permission::class => PermissionPolicy::class,
     ];
 
     /**
@@ -37,6 +40,11 @@ class AuthServiceProvider extends ServiceProvider
         $gate->define('VIEW_ADMIN_ARTICLES', function ($user)
         {
             return $user->canDo('VIEW_ADMIN_ARTICLES', FALSE);
+        });
+
+        $gate->define('ADMIN_USERS', function ($user)
+        {
+            return $user->canDo('ADMIN_USERS', FALSE);
         });
 
         //
