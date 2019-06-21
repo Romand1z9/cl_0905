@@ -6,7 +6,7 @@ Route::resource('portfolios', 'PortfolioController', ['parameters' => ['portfoli
 
 Route::resource('articles', 'ArticleController', ['parameters' => ['articles' => 'alias']]);
 
-Route::get('articles/category/{alias?}', ['uses'=>'ArticleController@index','as'=>'articlesCategory'])->where('alias','[\w-]+');;
+Route::get('articles/category/{alias?}', ['uses'=>'ArticleController@index','as'=>'articlesCategory'])->where('alias','[\w-]+');
 
 Route::resource('comment','CommentController',['only'=>['store']]);
 
@@ -22,11 +22,11 @@ Route::get('logout','Auth\LoginController@logout');
 
 Route::group(['prefix' => 'admin','middleware'=> 'auth'], function()
 {
-
     Route::get('/',['uses' => 'Admin\IndexController@index','as' => 'adminIndex']);
 
     Route::resource('articles','Admin\ArticleController');
 
     Route::resource('permissions','Admin\PermissionController');
 
+    Route::resource('menus','Admin\MenuController');
 });

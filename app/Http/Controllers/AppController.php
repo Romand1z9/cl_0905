@@ -72,7 +72,7 @@ class AppController extends Controller
 			
             foreach($menu as $item) 
             {
-                $item->path = env('APP_URL').$item->path;
+                $item->path = $item->path;
 				
                 if($item->parent == 0) 
                 {

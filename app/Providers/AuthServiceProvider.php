@@ -47,6 +47,16 @@ class AuthServiceProvider extends ServiceProvider
             return $user->canDo('ADMIN_USERS', FALSE);
         });
 
+        $gate->define('VIEW_ADMIN_MENU', function ($user)
+        {
+            return $user->canDo('VIEW_ADMIN_MENU', FALSE);
+        });
+
+        $gate->define('EDIT_MENU', function ($user)
+        {
+            return $user->canDo('EDIT_MENU', FALSE);
+        });
+
         //
     }
 }
