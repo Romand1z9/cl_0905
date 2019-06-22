@@ -55,11 +55,11 @@ class Handler extends ExceptionHandler
 
                     $obj = new \App\Http\Controllers\AppController(new \App\Repositories\MenusRepository(new \App\Menu));
 
-                    $navigation = view(env('THEME').'.navigation')->with('menu',$obj->getMenu())->render();
+                    $navigation = view(config('settings.theme').'.navigation')->with('menu',$obj->getMenu())->render();
 
                     //\Log::alert('Страница не найдена - '. $request->url());
 
-                    return response()->view(env('THEME').'.404',['sidebar' => 'no','title' => Lang::get('errors.page_not_found'),'navigation'=>$navigation]);
+                    return response()->view(config('settings.theme').'.404',['sidebar' => 'no','title' => Lang::get('errors.page_not_found'),'navigation'=>$navigation]);
             }
         }
         return parent::render($request, $exception);

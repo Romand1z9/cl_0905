@@ -20,7 +20,7 @@ class IndexController extends AppController
         $this->p_rep = $portfolio;
         $this->a_rep = $articles;
         
-        $this->template = env('THEME').'.index';
+        $this->template = config('settings.theme').'.index';
     }
 
     /**
@@ -36,13 +36,13 @@ class IndexController extends AppController
         $this->meta_description = 'Home Page';
 
         $slides = $this->getSlides();        
-        $slider = view(env('THEME').'.slider')->with('slides', $slides)->render();
+        $slider = view(config('settings.theme').'.slider')->with('slides', $slides)->render();
         
         $portfolio_items = $this->getPortfolio();
-        $portfolio = view(env('THEME').'.content')->with('portfolios', $portfolio_items)->render();
+        $portfolio = view(config('settings.theme').'.content')->with('portfolios', $portfolio_items)->render();
 
         $articles = $this->getArticles();
-        $this->contentRightBar = view(env('THEME').'.index_sidebar')->with('articles', $articles)->render();
+        $this->contentRightBar = view(config('settings.theme').'.index_sidebar')->with('articles', $articles)->render();
 
         $this->sidebar = 'right';
         

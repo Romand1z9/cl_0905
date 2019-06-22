@@ -42,7 +42,7 @@ class AdminController extends Controller
 
         $menu = $this->getMenu();
 
-        $navigation = view(env('THEME').'.admin.navigation')->with('menu',$menu)->render();
+        $navigation = view(config('settings.theme').'.admin.navigation')->with('menu',$menu)->render();
         $this->vars['navigation'] = $navigation;
 
         if($this->content)
@@ -50,7 +50,7 @@ class AdminController extends Controller
             $this->vars['content'] = $this->content;
         }
 
-        $footer = view(env('THEME').'.admin.footer')->render();
+        $footer = view(config('settings.theme').'.admin.footer')->render();
         $this->vars['footer'] = $footer;
 
         return view($this->template)->with($this->vars);

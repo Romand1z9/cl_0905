@@ -22,7 +22,7 @@ class UserController extends AdminController
         $this->user_rep = $user_rep;
         $this->role_rep = $role_rep;
 
-        $this->template = env('THEME').'.admin.users';
+        $this->template = config('settings.theme').'.admin.users';
     }
 
     /**
@@ -39,7 +39,7 @@ class UserController extends AdminController
 
         $users = $this->user_rep->get();
 
-        $this->content = view(env('THEME').'.admin.users_content')->with(['users' => $users])->render();
+        $this->content = view(config('settings.theme').'.admin.users_content')->with(['users' => $users])->render();
 
         return $this->renderOutput();
     }
@@ -66,7 +66,7 @@ class UserController extends AdminController
 
         //dd($roles);
 
-        $this->content = view(env('THEME').'.admin.users_create_content')->with('roles', $roles)->render();
+        $this->content = view(config('settings.theme').'.admin.users_create_content')->with('roles', $roles)->render();
 
         return $this->renderOutput();
     }
@@ -127,7 +127,7 @@ class UserController extends AdminController
             return $returnRoles;
         }, []);
 
-        $this->content = view(env('THEME').'.admin.users_create_content')->with(['roles'=>$roles,'user'=>$user])->render();
+        $this->content = view(config('settings.theme').'.admin.users_create_content')->with(['roles'=>$roles,'user'=>$user])->render();
 
         return $this->renderOutput();
     }

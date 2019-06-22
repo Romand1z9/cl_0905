@@ -19,7 +19,7 @@ class PermissionController extends AdminController
         $this->perms_rep = $permissions;
         $this->roles_rep = $roles;
 
-        $this->template = env('THEME').'.admin.permissions';
+        $this->template = config('settings.theme').'.admin.permissions';
     }
 
     /**
@@ -39,7 +39,7 @@ class PermissionController extends AdminController
         $roles = $this->roles_rep->get();
         $permissions = $this->perms_rep->get();
 
-        $this->content = view(env('THEME').'.admin.permissions_content')->with(['roles' => $roles, 'perms' => $permissions])->render();
+        $this->content = view(config('settings.theme').'.admin.permissions_content')->with(['roles' => $roles, 'perms' => $permissions])->render();
 
         return $this->renderOutput();
     }

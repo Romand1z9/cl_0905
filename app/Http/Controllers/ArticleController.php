@@ -22,7 +22,7 @@ class ArticleController extends AppController
         $this->c_rep = $comments;
         
         $this->bar = 'right';
-        $this->template = env('THEME').'.articles';
+        $this->template = config('settings.theme').'.articles';
     }
 
     public function index($alias = FALSE)
@@ -31,10 +31,10 @@ class ArticleController extends AppController
         $portfolio_items = $this->getPortfolio();
         $comments = $this->getComments(Config::get('settings.articles_comments_count'));
 
-        $articles = view(env('THEME').'.articles_content')->with('articles', $articles_items)->render();
+        $articles = view(config('settings.theme').'.articles_content')->with('articles', $articles_items)->render();
         $this->vars['articles'] = $articles;
 
-        $this->contentRightBar = view(env('THEME').'.articles_sidebar')->with(['portfolios' => $portfolio_items, 'comments' => $comments])->render();
+        $this->contentRightBar = view(config('settings.theme').'.articles_sidebar')->with(['portfolios' => $portfolio_items, 'comments' => $comments])->render();
 
         $this->sidebar = 'right';
 
@@ -61,10 +61,10 @@ class ArticleController extends AppController
         $portfolio_items = $this->getPortfolio();
         $comments = $this->getComments(Config::get('settings.articles_comments_count'));
 
-        $content = view(env('THEME').'.article_content')->with('article', $article)->render();
+        $content = view(config('settings.theme').'.article_content')->with('article', $article)->render();
         $this->vars['articles'] = $content;
 
-        $this->contentRightBar = view(env('THEME').'.articles_sidebar')->with(['portfolios' => $portfolio_items, 'comments' => $comments])->render();
+        $this->contentRightBar = view(config('settings.theme').'.articles_sidebar')->with(['portfolios' => $portfolio_items, 'comments' => $comments])->render();
         $this->sidebar = 'right';
 
         return $this->renderOutput();

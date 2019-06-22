@@ -17,7 +17,7 @@ class PortfolioController extends AppController
         parent::__construct(new \App\Repositories\MenusRepository(new \App\Menu));
 
         $this->p_rep = $p_rep;
-        $this->template = env('THEME').'.portfolios';
+        $this->template = config('settings.theme').'.portfolios';
 
     }
 
@@ -30,7 +30,7 @@ class PortfolioController extends AppController
 
         $portfolios = $this->getPortfolios();
 
-        $content = view(env('THEME').'.portfolios_content')->with('portfolios',$portfolios)->render();
+        $content = view(config('settings.theme').'.portfolios_content')->with('portfolios',$portfolios)->render();
         $this->vars['content'] = $content;
 
         return $this->renderOutput();
@@ -45,7 +45,7 @@ class PortfolioController extends AppController
         $this->keywords = $portfolio->keywords;
         $this->meta_desc = $portfolio->meta_desc;
 
-        $content = view(env('THEME').'.portfolio_content')->with(['portfolio' => $portfolio,'portfolios' => $portfolios])->render();
+        $content = view(config('settings.theme').'.portfolio_content')->with(['portfolio' => $portfolio,'portfolios' => $portfolios])->render();
         $this->vars['content'] = $content;
 
         return $this->renderOutput();

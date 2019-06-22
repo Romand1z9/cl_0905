@@ -41,23 +41,23 @@ class AppController extends Controller
 
         $menu = $this->getMenu();
 
-        $this->vars['navigation'] = view(env('THEME').'.navigation')->with('menu', $menu)->render();
+        $this->vars['navigation'] = view(config('settings.theme').'.navigation')->with('menu', $menu)->render();
 
         if ($this->contentRightBar)
         {
-            $right_bar = view(env('THEME').'.right_sidebar')->with('content_right_bar', $this->contentRightBar)->render();
+            $right_bar = view(config('settings.theme').'.right_sidebar')->with('content_right_bar', $this->contentRightBar)->render();
             $this->vars['right_bar'] = $right_bar;
         }
 
         if($this->contentLeftBar)
         {
-            $left_bar = view(env('THEME').'.left_bar')->with('content_left_bar',$this->contentLeftBar)->render();
+            $left_bar = view(config('settings.theme').'.left_bar')->with('content_left_bar',$this->contentLeftBar)->render();
             $this->vars['left_bar'] = $left_bar;
         }
 
         $this->vars['sidebar'] = $this->sidebar;
 
-        $footer = view(env('THEME').'.footer')->render();
+        $footer = view(config('settings.theme').'.footer')->render();
         $this->vars['footer'] = $footer;
 
         return view($this->template)->with($this->vars);
