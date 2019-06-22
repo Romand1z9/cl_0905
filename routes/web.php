@@ -26,7 +26,10 @@ Route::group(['prefix' => 'admin','middleware'=> 'auth'], function()
 
     Route::resource('articles','Admin\ArticleController');
 
+    Route::resource('menus','Admin\MenuController');
+
+    Route::resource('users','Admin\UserController');
+
     Route::resource('permissions','Admin\PermissionController');
 
-    Route::resource('menus','Admin\MenuController');
 });
