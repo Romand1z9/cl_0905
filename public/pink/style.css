@@ -868,3 +868,16 @@ form input[type="text"], form textarea { border: 1px solid #CFCFCF; -webkit-tran
 {
     border: 2px solid green !important;
 }
+
+.content .contact-form li {
+    min-width: 200px;
+    width: 30% !important;
+    margin: 15px 35% !important;
+}
+
+.content .contact-form li.submit-button {
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 32% !important;
+}
